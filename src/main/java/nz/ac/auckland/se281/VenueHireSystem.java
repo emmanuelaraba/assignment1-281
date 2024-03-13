@@ -8,7 +8,7 @@ public class VenueHireSystem {
   public VenueHireSystem() {}
 
   public void printVenues() {
-    // TODO implement this method
+    System.out.println("Print details of all the venues");
   }
 
   public void createVenue(

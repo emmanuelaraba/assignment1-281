@@ -34,7 +34,7 @@ public class Venue {
         this.hireFeeInput = hireFeeInput;
     }
     public String gethireFeeInput(){
-        return this.gethireFeeInput();
+        return this.hireFeeInput;
     }
 
   }

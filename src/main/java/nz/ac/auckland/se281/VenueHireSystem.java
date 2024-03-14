@@ -13,22 +13,7 @@ public class VenueHireSystem {
     // when the class is called, create a new array to store the venues in
     this.venues = new ArrayList<>();
   }
-
-  // class to demonstrate the attributes of a Venue 
-  public class Venue{
-    String venueName;
-    String venueCode;
-    String capacityInput;
-    String hireFeeInput;
-
-    public Venue (String venueName, String venueCode, String capacityInput, String hireFeeInput){
-      this.venueName = venueName;
-      this.venueCode = venueCode;
-      this.capacityInput = capacityInput;
-      this.hireFeeInput = hireFeeInput;
-    }
-  }
-
+  
   public void printVenues() {
     if (this.venues.size() == 0){
       MessageCli.NO_VENUES.printMessage(null);

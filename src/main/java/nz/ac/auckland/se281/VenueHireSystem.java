@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281;
 
+
 import java.util.ArrayList;
 
 import nz.ac.auckland.se281.Types.CateringType;
@@ -16,21 +17,30 @@ public class VenueHireSystem {
   
   public void printVenues() {
     // checking if the array that contains the venues is empty
-    if (this.venueList.size() == 0){
+    if (venueList.size() == 0){
       MessageCli.NO_VENUES.printMessage();
+    } else if (venueList.size() == 1) {
+      MessageCli.NUMBER_VENUES.printMessage("is", "one", "");
+      for (Venue venue : venueList) {
+        MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venue.getvenueName(), venue.getvenueCode());
+      }
+    } else {
+      MessageCli.NUMBER_VENUES.printMessage("are", String.valueOf(venueList.size()), "s");
+      for (Venue venue : venueList) {
+        MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venue.getvenueName(), venue.getvenueCode());
+      }
     }
   }
 
   public void createVenue(String venueName, String venueCode, String capacityInput, String hireFeeInput) {
     // creates new venue and adds it to the array of created venues 
     Venue newVenue = new Venue(venueName, venueCode, capacityInput, hireFeeInput);
-    // tests for checking if the venueName is empty
     boolean valid = true;
+    // tests for checking if the venueName is empty
     if (venueName.isEmpty()){
       MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
       valid = false; 
     }
-
     // test to find if the venue has a positive capacity 
     if (valid){
       try {
@@ -51,7 +61,7 @@ public class VenueHireSystem {
         valid = false;
       }
     }
-
+  
     // if all the tests pass and the new venue is valid, then print the success message 
     if (valid){
       MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venueName, venueCode);

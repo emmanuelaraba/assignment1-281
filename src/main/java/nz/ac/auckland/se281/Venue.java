@@ -33,7 +33,7 @@ public class Venue {
     public void sethireFeeInput(String hireFeeInput){
         this.hireFeeInput = hireFeeInput;
     }
-    public String gethireFeeInput (){
+    public String gethireFeeInput(){
         return this.gethireFeeInput();
     }
 

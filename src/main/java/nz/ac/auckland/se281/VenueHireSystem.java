@@ -25,14 +25,39 @@ public class VenueHireSystem {
     // creates new venue and adds it to the array of created venues 
     Venue newVenue = new Venue(venueName, venueCode, capacityInput, hireFeeInput);
     // tests for checking if the venueName is empty
+    boolean valid = true;
     if (venueName.isEmpty()){
       MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
-    } else if (Integer.parseInt(capacityInput) < 0){
-      MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("capacity ", " positive");
-    } else {
-      MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venueName, venueCode);
+      valid = false; 
     }
-    venueList.add(newVenue);
+
+    // test to find if the venue has a positive capacity 
+    if (valid){
+      try {
+        if (Integer.parseInt(capacityInput) < 0){
+          MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("capacity", " positive");
+          valid = false;
+        }
+      } catch (Exception e){
+        valid = false;
+      }
+    }
+    // test case to check if the hire capacity is valid
+    if (valid){
+      try {
+        Integer.parseInt(hireFeeInput);
+      } catch (Exception e) {
+        MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("hire fee", "");
+        valid = false;
+      }
+    }
+
+    // if all the tests pass and the new venue is valid, then print the success message 
+    if (valid){
+      MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venueName, venueCode);
+      venueList.add(newVenue);
+    }
+
   }
 
   public void setSystemDate(String dateInput) {

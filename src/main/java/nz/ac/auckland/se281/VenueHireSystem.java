@@ -22,12 +22,12 @@ public class VenueHireSystem {
     } else if (venueList.size() == 1) {
       MessageCli.NUMBER_VENUES.printMessage("is", "one", "");
       for (Venue venue : venueList) {
-        MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venue.getvenueName(), venue.getvenueCode());
+        MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venue.getvenueName());
       }
     } else {
       MessageCli.NUMBER_VENUES.printMessage("are", String.valueOf(venueList.size()), "s");
       for (Venue venue : venueList) {
-        MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venue.getvenueName(), venue.getvenueCode());
+        MessageCli.VENUE_ENTRY.printMessage(venue.getvenueName(), venue.getvenueCode(), venue.getcapacityInput(), venue.gethireFeeInput(), "");
       }
     }
   }

@@ -5,26 +5,32 @@ import nz.ac.auckland.se281.Types.CateringType;
 import nz.ac.auckland.se281.Types.FloralType;
 
 public class VenueHireSystem {
+
   // creates new venue list to store the names of the venues
   private ArrayList<Venue> venueList;
 
   public VenueHireSystem() {
+
     // when the class is called, create a new array to store the venues in
     this.venueList = new ArrayList<>();
   }
 
   public void printVenues() {
+
     // list of the names of the numbers, to correspond to the number
     String [] prefixList = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+
     // checking if the array that contains the venues is empty
     if (venueList.size() == 0){
       MessageCli.NO_VENUES.printMessage();
+
       // test case for one - contains different articles etc
     } else if (venueList.size() == 1){
       MessageCli.NUMBER_VENUES.printMessage("is", "one", "");
       for (Venue venue : venueList) {
         MessageCli.VENUE_ENTRY.printMessage(venue.getvenueName(), venue.getvenueCode(), venue.getcapacityInput(), venue.gethireFeeInput(), "");
       }
+
       // between 1 and 10 (exclusive), we need to write out the number format, not the word
     } else if ((venueList.size() > 1) & (venueList.size() < 10)) {
       MessageCli.NUMBER_VENUES.printMessage("are", prefixList[venueList.size() - 1], "s");
@@ -41,8 +47,10 @@ public class VenueHireSystem {
   }
 
   public void createVenue(String venueName, String venueCode, String capacityInput, String hireFeeInput) {
+
     // boolean for checking if the new venue passes all the tests, must be true for the new instance to be created 
     boolean valid = true;
+
     // tests for checking if the venueName is empty
     if (valid){
       if (venueName.isEmpty()){
@@ -50,6 +58,7 @@ public class VenueHireSystem {
         valid = false; 
       }
     }
+
     // test to find if the venue has a positive capacity 
     if (valid){
       try {
@@ -61,6 +70,7 @@ public class VenueHireSystem {
         valid = false;
       }
     }
+
     // test case to check if the hire capacity is valid
     if (valid){
       try {
@@ -70,6 +80,7 @@ public class VenueHireSystem {
         valid = false;
       }
     }
+
     // checking we don't have a duplicate venue code
     if (valid){
       for (Venue venue : venueList) {
@@ -79,8 +90,10 @@ public class VenueHireSystem {
         }
       }
     }
+
     // if all the tests pass, then create a new venue instance, then print the success message
     if (valid){
+      
       // creates new venue instance 
       Venue newVenue = new Venue(venueName, venueCode, capacityInput, hireFeeInput);
       MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venueName, venueCode);

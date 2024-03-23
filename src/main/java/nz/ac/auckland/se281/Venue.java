@@ -13,35 +13,35 @@ public class Venue {
     this.hireFeeInput = hireFeeInput;
   }
 
-  public void setvenueName(String venueName){
+  public void setVenueName(String venueName){
     this.venueName = venueName;
   }
 
-  public String getvenueName(){
+  public String getVenueName(){
     return this.venueName;
   }
 
-  public void setvenueCode(String venueCode){
+  public void setVenueCode(String venueCode){
       this.venueCode = venueCode;
   }
 
-  public String getvenueCode(){
+  public String getVenueCode(){
     return this.venueCode;
   }
 
-  public void setcapacityInput(String capacityInput){
+  public void setCapacityInput(String capacityInput){
     this.capacityInput = capacityInput;
   }
 
-  public String getcapacityInput(){
+  public String getCapacityInput(){
     return this.capacityInput;
   }
 
-  public void sethireFeeInput(String hireFeeInput){
+  public void setHireFeeInput(String hireFeeInput){
     this.hireFeeInput = hireFeeInput;
   }
   
-  public String gethireFeeInput(){
+  public String getHireFeeInput(){
     return this.hireFeeInput;
   }
 }

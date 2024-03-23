@@ -1,6 +1,6 @@
 package nz.ac.auckland.se281;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import nz.ac.auckland.se281.Types.CateringType;
 import nz.ac.auckland.se281.Types.FloralType;
 
@@ -28,20 +28,20 @@ public class VenueHireSystem {
     } else if (venueList.size() == 1){
       MessageCli.NUMBER_VENUES.printMessage("is", "one", "");
       for (Venue venue : venueList) {
-        MessageCli.VENUE_ENTRY.printMessage(venue.getvenueName(), venue.getvenueCode(), venue.getcapacityInput(), venue.gethireFeeInput(), "");
+        MessageCli.VENUE_ENTRY.printMessage(venue.getVenueName(), venue.getVenueCode(), venue.getCapacityInput(), venue.getHireFeeInput(), "");
       }
 
       // between 1 and 10 (exclusive), we need to write out the number format, not the word
     } else if ((venueList.size() > 1) & (venueList.size() < 10)) {
       MessageCli.NUMBER_VENUES.printMessage("are", prefixList[venueList.size() - 1], "s");
       for (Venue venue : venueList) {
-        MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venue.getvenueName(), venue.getvenueCode());
+        MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venue.getVenueName(), venue.getVenueCode());
       }
       // 10 and above, print the number 
     } else {
       MessageCli.NUMBER_VENUES.printMessage("are", String.valueOf(venueList.size()), "s");
       for (Venue venue : venueList) {
-        MessageCli.VENUE_ENTRY.printMessage(venue.getvenueName(), venue.getvenueCode(), venue.getcapacityInput(), venue.gethireFeeInput(), "");
+        MessageCli.VENUE_ENTRY.printMessage(venue.getVenueName(), venue.getVenueCode(), venue.getCapacityInput(), venue.getHireFeeInput(), "");
       }
     }
   }
@@ -84,8 +84,8 @@ public class VenueHireSystem {
     // checking we don't have a duplicate venue code
     if (valid){
       for (Venue venue : venueList) {
-        if (venueCode.equals(venue.getvenueCode())){
-          MessageCli.VENUE_NOT_CREATED_CODE_EXISTS.printMessage(venueCode, venue.getvenueName());
+        if (venueCode.equals(venue.getVenueCode())){
+          MessageCli.VENUE_NOT_CREATED_CODE_EXISTS.printMessage(venueCode, venue.getVenueName());
           valid = false;
         }
       }

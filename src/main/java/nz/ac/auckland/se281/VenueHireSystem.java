@@ -35,7 +35,7 @@ public class VenueHireSystem {
     } else if ((venueList.size() > 1) & (venueList.size() < 10)) {
       MessageCli.NUMBER_VENUES.printMessage("are", prefixList[venueList.size() - 1], "s");
       for (Venue venue : venueList) {
-        MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venue.getVenueName(), venue.getVenueCode());
+        MessageCli.VENUE_ENTRY.printMessage(venue.getVenueName(), venue.getVenueCode(), venue.getCapacityInput(),venue.getHireFeeInput(), "");
       }
       // 10 and above, print the number 
     } else {

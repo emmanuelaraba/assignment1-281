@@ -6,44 +6,42 @@ public class Venue {
   private String capacityInput;
   private String hireFeeInput;
 
-  public Venue (String venueName, String venueCode, String capacityInput, String hireFeeInput){
+  public Venue(String venueName, String venueCode, String capacityInput, String hireFeeInput) {
     this.venueName = venueName;
     this.venueCode = venueCode;
     this.capacityInput = capacityInput;
     this.hireFeeInput = hireFeeInput;
   }
 
-  public void setVenueName(String venueName){
+  public void setVenueName(String venueName) {
     this.venueName = venueName;
   }
 
-  public String getVenueName(){
+  public String getVenueName() {
     return this.venueName;
   }
 
-  public void setVenueCode(String venueCode){
-      this.venueCode = venueCode;
+  public void setVenueCode(String venueCode) {
+    this.venueCode = venueCode;
   }
 
-  public String getVenueCode(){
+  public String getVenueCode() {
     return this.venueCode;
   }
 
-  public void setCapacityInput(String capacityInput){
+  public void setCapacityInput(String capacityInput) {
     this.capacityInput = capacityInput;
   }
 
-  public String getCapacityInput(){
+  public String getCapacityInput() {
     return this.capacityInput;
   }
 
-  public void setHireFeeInput(String hireFeeInput){
+  public void setHireFeeInput(String hireFeeInput) {
     this.hireFeeInput = hireFeeInput;
   }
-  
-  public String getHireFeeInput(){
+
+  public String getHireFeeInput() {
     return this.hireFeeInput;
   }
 }
-
-

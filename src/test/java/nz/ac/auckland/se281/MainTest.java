@@ -13,9 +13,9 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-  //MainTest.Task1.class,
-  //MainTest.Task2.class,
-  //MainTest.Task3.class,
+  MainTest.Task1.class,
+  // MainTest.Task2.class,
+  // MainTest.Task3.class,
   MainTest.YourTests.class, // Uncomment this line to run your own tests
 })
 public class MainTest {
@@ -711,7 +711,7 @@ public class MainTest {
     @Test
     public void T4_01_nine_venues() throws Exception {
       runCommands(unpack(CREATE_NINE_VENUES, PRINT_VENUES));
-      
+
       assertContains("Successfully created venue 'Frugal Fiesta Hall' (FFH).");
       assertContains("Successfully created venue 'Comfy Corner Events Centre' (CCEC).");
       assertContains("Successfully created venue 'Cozy Comforts Venue' (CCV).");
@@ -735,9 +735,16 @@ public class MainTest {
 
       assertDoesNotContain("There is", true);
       assertDoesNotContain("9 venues", true);
-    
     }
   }
+
+  // @Test
+  // public void T4_02_invalid_capacity() throws Exception {
+  //   runCommands(CREATE_VENUE, "Emmanuel's Hall", "EHH", "twenty-five", "80");
+
+  //   assertContains("Venue not created: capacity must be a number.");
+  //   assertDoesNotContain("Successfully created venue");
+  // }
 
   private static final Object[] CREATE_NINE_VENUES =
       new Object[] {

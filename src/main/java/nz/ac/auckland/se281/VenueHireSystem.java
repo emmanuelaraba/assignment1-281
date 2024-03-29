@@ -84,6 +84,7 @@ public class VenueHireSystem {
           valid = false;
         }
       } catch (Exception e) {
+        MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("capacity", "");
         valid = false;
       }
     }
@@ -105,6 +106,13 @@ public class VenueHireSystem {
           MessageCli.VENUE_NOT_CREATED_CODE_EXISTS.printMessage(venueCode, venue.getVenueName());
           valid = false;
         }
+      }
+    }
+    // checking if the hire fee is a positive number
+    if (valid) {
+      if (Integer.parseInt(hireFeeInput) < 0) {
+        MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("hire fee", " positive");
+        valid = false;
       }
     }
 

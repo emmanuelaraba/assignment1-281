@@ -14,7 +14,10 @@ public class Main {
   public enum Command {
     // Task 1 commands
     PRINT_VENUES(0, "Print details of all the venues"), //
-    CREATE_VENUE( 4,"Create a new venue with the given <VENUE_NAME>, <VENUE_CODE>, <VENUE_CAPACITY>, and" + " <HIRE_FEE>"), //
+    CREATE_VENUE(
+        4,
+        "Create a new venue with the given <VENUE_NAME>, <VENUE_CODE>, <VENUE_CAPACITY>, and"
+            + " <HIRE_FEE>"), //
 
     // Task 2 commands
     SET_DATE(1, "Set the system's date to the specified date in DD/MM/YYYY format"), //

@@ -8,6 +8,8 @@ public class VenueHireSystem {
 
   // creates new venue list to store the names of the venues
   private ArrayList<Venue> venueList;
+  // create variable for the system date
+  private String systemDate;
 
   public VenueHireSystem() {
 
@@ -128,15 +130,19 @@ public class VenueHireSystem {
 
   public void setSystemDate(String dateInput) {
     // checking if the date is empty, otherwise setting the system date
-    if (dateInput.isEmpty()) {
-      MessageCli.DATE_NOT_SET_EMPTY.printMessage();
-    } else {
+    if (!dateInput.isEmpty()) {
       MessageCli.DATE_SET.printMessage(dateInput);
     }
+    systemDate = dateInput;
   }
 
   public void printSystemDate() {
-    // TODO implement this method
+    // checking if the system date is empty, otherwise printing the date
+    if (systemDate == null) {
+      MessageCli.CURRENT_DATE.printMessage("not set");
+    } else {
+      MessageCli.CURRENT_DATE.printMessage(systemDate);
+    }
   }
 
   public void makeBooking(String[] options) {

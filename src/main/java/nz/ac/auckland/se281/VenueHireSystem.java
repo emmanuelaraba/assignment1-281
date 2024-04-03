@@ -127,7 +127,12 @@ public class VenueHireSystem {
   }
 
   public void setSystemDate(String dateInput) {
-    // TODO implement this method
+    // checking if the date is empty, otherwise setting the system date
+    if (dateInput.isEmpty()) {
+      MessageCli.DATE_NOT_SET_EMPTY.printMessage();
+    } else {
+      MessageCli.DATE_SET.printMessage(dateInput);
+    }
   }
 
   public void printSystemDate() {

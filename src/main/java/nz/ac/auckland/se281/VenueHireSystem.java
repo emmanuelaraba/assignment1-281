@@ -157,6 +157,8 @@ public class VenueHireSystem {
 
     // first check if the venue code is valid
     boolean valid = false;
+
+    // use this find the venue that the booking is being made for
     Venue venue = null;
     for (Venue v : venueList) {
       if (v.getVenueCode().equals(venueCode)) {
@@ -164,6 +166,20 @@ public class VenueHireSystem {
         venue = v;
       } else {
         MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(venueCode);
+      }
+    }
+    // check if the sysem date is set
+    if (valid) {
+      if (systemDate == null) {
+        MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage();
+        valid = false;
+      }
+    }
+    // check if there are venues in the system
+    if (valid) {
+      if (venueList.size() == 0) {
+        MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage();
+        valid = false;
       }
     }
     // check if the date is after the system date

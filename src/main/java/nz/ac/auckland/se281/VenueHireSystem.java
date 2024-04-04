@@ -166,6 +166,25 @@ public class VenueHireSystem {
         MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(venueCode);
       }
     }
+    // check if the date is after the system date
+    String[] systemDateSplit = systemDate.split("/");
+    String[] intendedDateSplit = intendedDate.split("/");
+    // first compare the year
+    if (valid) {
+      // first compare the year
+      if (Integer.parseInt(intendedDateSplit[2]) < Integer.parseInt(systemDateSplit[2])) {
+        MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
+        // then compare the month
+      } else if (Integer.parseInt(intendedDateSplit[1]) < Integer.parseInt(systemDateSplit[1])) {
+        MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
+        // last, compare the day
+      } else if (Integer.parseInt(intendedDateSplit[0]) < Integer.parseInt(systemDateSplit[0])) {
+        MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
+      } else {
+        // if all tests pass, the date is valid
+        valid = true;
+      }
+    }
 
     // now we have the venue and the venue attributes, we can check if the venue is already booked
 

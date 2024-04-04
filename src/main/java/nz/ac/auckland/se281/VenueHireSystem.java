@@ -8,8 +8,11 @@ public class VenueHireSystem {
 
   // creates new venue list to store the names of the venues
   private ArrayList<Venue> venueList;
+
   // create variable for the system date
   private String systemDate;
+
+  // create
 
   public VenueHireSystem() {
 
@@ -146,7 +149,26 @@ public class VenueHireSystem {
   }
 
   public void makeBooking(String[] options) {
-    // TODO implement this method
+    // first parse the options that are inputted into the method
+    String venueCode = options[0];
+    String intendedDate = options[1];
+    String clientEmail = options[2];
+    String intendedGuests = options[3];
+
+    // first check if the venue code is valid
+    boolean valid = false;
+    Venue venue = null;
+    for (Venue v : venueList) {
+      if (v.getVenueCode().equals(venueCode)) {
+        valid = true;
+        venue = v;
+      } else {
+        MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(venueCode);
+      }
+    }
+
+    // now we have the venue and the venue attributes, we can check if the venue is already booked
+
   }
 
   public void printBookings(String venueCode) {

@@ -12,10 +12,16 @@ public class VenueHireSystem {
   // create variable for the system date
   private String systemDate = null;
 
+  // create a list of all the bookings
+  private ArrayList<Booking> bookingList;
+
   public VenueHireSystem() {
 
     // when a new venuehiresystem object is instantiated, create a new array to store the venues in
     this.venueList = new ArrayList<>();
+
+    // create a new array to store the bookings in
+    this.bookingList = new ArrayList<>();
   }
 
   public void printVenues() {
@@ -161,7 +167,6 @@ public class VenueHireSystem {
     for (Venue venue1 : venueList) {
       if (venue1.getVenueCode().equals(venueCode)) {
         venue = venue1;
-        System.out.println(venue.getVenueCode());
         valid = true;
         break;
       } else {
@@ -208,7 +213,7 @@ public class VenueHireSystem {
     }
     // test to make sure the number of attendees is more than 25% of the venue capacity
     if (valid) {
-      if (Integer.parseInt(intendedGuests) > (Integer.parseInt(venue.getCapacityInput()) * 0.25)) {
+      if (Integer.parseInt(intendedGuests) < (Integer.parseInt(venue.getCapacityInput()) * 0.25)) {
         String newGuests = String.valueOf(Integer.parseInt(venue.getCapacityInput()) * 0.25);
         MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
             intendedGuests, newGuests, venue.getCapacityInput());
@@ -216,6 +221,7 @@ public class VenueHireSystem {
         intendedGuests = String.valueOf(Integer.parseInt(venue.getCapacityInput()) * 0.25);
       }
     }
+
     // test to make sure the intended guests is a not more than the venue capacity
     if (valid) {
       if (Integer.parseInt(intendedGuests) > Integer.parseInt(venue.getCapacityInput())) {
@@ -229,7 +235,28 @@ public class VenueHireSystem {
     }
 
     // now we have the venue and the venue attributes, we can check if the venue is already booked
+    if (valid) {
+      for (Booking booking : bookingList) {
+        if (booking.getVenueCode().equals(venue.getVenueCode())
+            && booking.getBookingDate().equals(intendedDate)) {
+          MessageCli.BOOKING_NOT_MADE_VENUE_ALREADY_BOOKED.printMessage(
+              venue.getVenueName(), intendedDate);
+          valid = false;
+        }
+      }
+    }
 
+    if (valid) {
+      String bookingReference = BookingReferenceGenerator.generateBookingReference();
+      Booking newBooking =
+          new Booking(bookingReference, clientEmail, intendedDate, venueCode, intendedGuests);
+      bookingList.add(newBooking);
+      MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
+          newBooking.getBookingReference(),
+          venue.getVenueName(),
+          newBooking.getBookingDate(),
+          newBooking.getNumberOfGuests());
+    }
   }
 
   public void printBookings(String venueCode) {

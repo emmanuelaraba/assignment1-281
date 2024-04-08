@@ -44,7 +44,7 @@ public class VenueHireSystem {
             venue.getVenueCode(),
             venue.getCapacityInput(),
             venue.getHireFeeInput(),
-            "");
+            findNextAvailableDate(venue.getVenueCode()));
       }
 
       // between 1 and 10 (exclusive), we need to write out the number format, not the word
@@ -56,7 +56,7 @@ public class VenueHireSystem {
             venue.getVenueCode(),
             venue.getCapacityInput(),
             venue.getHireFeeInput(),
-            "");
+            findNextAvailableDate(venue.getVenueCode()));
       }
       // 10 and above, print the number
     } else {
@@ -67,7 +67,7 @@ public class VenueHireSystem {
             venue.getVenueCode(),
             venue.getCapacityInput(),
             venue.getHireFeeInput(),
-            "");
+            findNextAvailableDate(venue.getVenueCode()));
       }
     }
   }
@@ -264,10 +264,10 @@ public class VenueHireSystem {
     }
   }
 
-  public void printBookings(String venueCode) {
+  public String findNextAvailableDate(String venueCode) {
     boolean valid = true;
 
-    // finding if the venue code is in the system, and also finding the venue
+    // find the venue code in the system
     Venue venue = null;
     for (Venue venue1 : venueList) {
       if (venue1.getVenueCode().equals(venueCode)) {
@@ -278,25 +278,63 @@ public class VenueHireSystem {
         valid = false;
       }
     }
-    // method to find the next available date for the venue
+    // use code to find the next unbooked date for the venue
     if (valid) {
-      LocalDate date = LocalDate.parse(systemDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+      LocalDate date = LocalDate.parse(systemDate, DateTimeFormatter.ofPattern("dd/MM/uuuu"));
       boolean dateIsBooked = true;
       String nextDate;
 
       while (dateIsBooked) {
         for (Booking booking : bookingList) {
+
           if (booking.getVenueCode().equals(venue.getVenueCode())
               && booking.getBookingDate().equals(date.toString())) {
             date = date.plusDays(1);
+            break;
           } else {
             dateIsBooked = false;
           }
         }
       }
       nextDate = date.toString();
+      return nextDate;
     }
-    // TODO implement this method
+    return null;
+  }
+
+  public void printBookings(String venueCode) {
+    // find the venue code in the system
+    Venue venue = null;
+    boolean valid = true;
+    for (Venue venue1 : venueList) {
+      if (venue1.getVenueCode().equals(venueCode)) {
+        venue = venue1;
+        valid = true;
+        break;
+      } else {
+        valid = false;
+      }
+    }
+    // if the venue is not found, print the message
+    if (!valid) {
+      MessageCli.PRINT_BOOKINGS_VENUE_NOT_FOUND.printMessage(venueCode);
+    }
+
+    // if the venue is found, print the bookings
+    if (valid) {
+      MessageCli.PRINT_BOOKINGS_HEADER.printMessage(venue.getVenueName());
+      boolean bookingsExist = false;
+      for (Booking booking : bookingList) {
+        if (booking.getVenueCode().equals(venue.getVenueCode())) {
+          MessageCli.PRINT_BOOKINGS_ENTRY.printMessage(
+              booking.getBookingReference(), booking.getBookingDate());
+          bookingsExist = true;
+        }
+      }
+      if (!bookingsExist) {
+        MessageCli.PRINT_BOOKINGS_NONE.printMessage(venue.getVenueName());
+      }
+    }
   }
 
   public void addCateringService(String bookingReference, CateringType cateringType) {

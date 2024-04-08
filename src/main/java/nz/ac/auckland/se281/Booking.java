@@ -7,6 +7,9 @@ public class Booking {
   private String venueCode;
   private String numberOfGuests;
 
+  // initialising the system date
+  private String systemDate = null;
+
   public Booking(
       String bookingReference,
       String customerEmail,
@@ -18,6 +21,17 @@ public class Booking {
     this.bookingDate = bookingDate;
     this.venueCode = venueCode;
     this.numberOfGuests = numberOfGuests;
+  }
+
+  // method to find the next available date for the venue
+  public void findNextAvailableDate() {}
+
+  public void setSystemDate(String inputDate) {
+    this.systemDate = inputDate;
+  }
+
+  public String getSystemDate() {
+    return this.systemDate;
   }
 
   public String getBookingReference() {

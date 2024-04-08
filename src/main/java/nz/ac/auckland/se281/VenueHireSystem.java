@@ -136,7 +136,7 @@ public class VenueHireSystem {
   }
 
   public void setSystemDate(String dateInput) {
-    // checking if the date is empty, otherwise setting the system date
+    // checking if the input is empty, otherwise setting the system date
     if (dateInput != null) {
       MessageCli.DATE_SET.printMessage(dateInput);
     }
@@ -246,12 +246,16 @@ public class VenueHireSystem {
         }
       }
     }
+    // method to find the next available date for the venue
+    if (valid) {}
 
+    // finally, if all the tests pass, we can create a new booking and store it in our booking array
     if (valid) {
       String bookingReference = BookingReferenceGenerator.generateBookingReference();
       Booking newBooking =
           new Booking(bookingReference, clientEmail, intendedDate, venueCode, intendedGuests);
       bookingList.add(newBooking);
+      newBooking.setSystemDate(systemDate);
       MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
           newBooking.getBookingReference(),
           venue.getVenueName(),

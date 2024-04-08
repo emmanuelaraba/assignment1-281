@@ -1,5 +1,7 @@
 package nz.ac.auckland.se281;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import nz.ac.auckland.se281.Types.CateringType;
 import nz.ac.auckland.se281.Types.FloralType;
@@ -162,7 +164,7 @@ public class VenueHireSystem {
     // first check if the venue code is valid
     boolean valid = true;
 
-    // finding if the venue code is in the system
+    // finding if the venue code is in the system, and also finding the venue
     Venue venue = null;
     for (Venue venue1 : venueList) {
       if (venue1.getVenueCode().equals(venueCode)) {
@@ -246,8 +248,6 @@ public class VenueHireSystem {
         }
       }
     }
-    // method to find the next available date for the venue
-    if (valid) {}
 
     // finally, if all the tests pass, we can create a new booking and store it in our booking array
     if (valid) {
@@ -265,6 +265,37 @@ public class VenueHireSystem {
   }
 
   public void printBookings(String venueCode) {
+    boolean valid = true;
+
+    // finding if the venue code is in the system, and also finding the venue
+    Venue venue = null;
+    for (Venue venue1 : venueList) {
+      if (venue1.getVenueCode().equals(venueCode)) {
+        venue = venue1;
+        valid = true;
+        break;
+      } else {
+        valid = false;
+      }
+    }
+    // method to find the next available date for the venue
+    if (valid) {
+      LocalDate date = LocalDate.parse(systemDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+      boolean dateIsBooked = true;
+      String nextDate;
+
+      while (dateIsBooked) {
+        for (Booking booking : bookingList) {
+          if (booking.getVenueCode().equals(venue.getVenueCode())
+              && booking.getBookingDate().equals(date.toString())) {
+            date = date.plusDays(1);
+          } else {
+            dateIsBooked = false;
+          }
+        }
+      }
+      nextDate = date.toString();
+    }
     // TODO implement this method
   }
 

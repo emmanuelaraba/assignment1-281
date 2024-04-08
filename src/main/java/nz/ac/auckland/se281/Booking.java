@@ -1,5 +1,7 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
+
 public class Booking {
   private String bookingReference;
   private String customerEmail;
@@ -9,6 +11,9 @@ public class Booking {
 
   // initialising the system date
   private String systemDate = null;
+
+  // arraylist to store the previously created bookings
+  public ArrayList<Booking> bookingList;
 
   public Booking(
       String bookingReference,
@@ -22,9 +27,6 @@ public class Booking {
     this.venueCode = venueCode;
     this.numberOfGuests = numberOfGuests;
   }
-
-  // method to find the next available date for the venue
-  public void findNextAvailableDate() {}
 
   public void setSystemDate(String inputDate) {
     this.systemDate = inputDate;

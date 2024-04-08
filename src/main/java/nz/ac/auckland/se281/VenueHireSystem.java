@@ -10,13 +10,11 @@ public class VenueHireSystem {
   private ArrayList<Venue> venueList;
 
   // create variable for the system date
-  private String systemDate;
-
-  // create
+  private String systemDate = null;
 
   public VenueHireSystem() {
 
-    // when the class is called, create a new array to store the venues in
+    // when a new venuehiresystem object is instantiated, create a new array to store the venues in
     this.venueList = new ArrayList<>();
   }
 
@@ -170,7 +168,7 @@ public class VenueHireSystem {
         valid = false;
       }
     }
-
+    // if the venue is not found, print the message
     if (!valid) {
       MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(venueCode);
     }
@@ -182,6 +180,7 @@ public class VenueHireSystem {
         valid = false;
       }
     }
+
     // check if there are venues in the system
     if (valid) {
       if (venueList.size() == 0) {

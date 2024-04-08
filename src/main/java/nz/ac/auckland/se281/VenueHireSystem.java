@@ -214,11 +214,12 @@ public class VenueHireSystem {
     // test to make sure the number of attendees is more than 25% of the venue capacity
     if (valid) {
       if (Integer.parseInt(intendedGuests) < (Integer.parseInt(venue.getCapacityInput()) * 0.25)) {
-        String newGuests = String.valueOf(Integer.parseInt(venue.getCapacityInput()) * 0.25);
+        int intGuests = (int) (Integer.parseInt(venue.getCapacityInput()) * 0.25);
+        String newGuests = String.valueOf(intGuests);
         MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
             intendedGuests, newGuests, venue.getCapacityInput());
         // adjusting the intended guests to 25% of the venue capacity
-        intendedGuests = String.valueOf(Integer.parseInt(venue.getCapacityInput()) * 0.25);
+        intendedGuests = newGuests;
       }
     }
 

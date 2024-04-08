@@ -1,15 +1,11 @@
 package nz.ac.auckland.se281;
 
-import java.util.*;
-
 public class Booking {
   private String bookingReference;
   private String customerEmail;
   private String bookingDate;
   private String venueCode;
   private String numberOfGuests;
-
-  private Map<String, String> bookings;
 
   public Booking(
       String bookingReference,

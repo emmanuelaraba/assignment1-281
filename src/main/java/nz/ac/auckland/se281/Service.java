@@ -1,5 +1,8 @@
 package nz.ac.auckland.se281;
 
 public abstract class Service {
-  protected String systemDate;
+  protected String venueCode;
+  protected String serviceDate;
+  protected String customerEmail;
+  protected String serviceAntendees;
 }

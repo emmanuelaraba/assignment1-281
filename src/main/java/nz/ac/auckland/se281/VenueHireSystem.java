@@ -156,19 +156,19 @@ public class VenueHireSystem {
     String intendedGuests = options[3];
 
     // first check if the venue code is valid
-    boolean valid = false;
+    boolean valid = true;
 
     // use this find the venue that the booking is being made for
     Venue venue = null;
-    for (Venue v : venueList) {
-      if (v.getVenueCode().equals(venueCode)) {
-        valid = true;
-        venue = v;
+    for (Venue venue2 : venueList) {
+      if (venue2.getVenueCode().equals(venueCode)) {
+        venue = venue2;
       } else {
         MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(venueCode);
+        valid = false;
       }
     }
-    // check if the sysem date is set
+    // test to make sure that a system date is set
     if (valid) {
       if (systemDate == null) {
         MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage();
@@ -189,16 +189,34 @@ public class VenueHireSystem {
     if (valid) {
       // first compare the year
       if (Integer.parseInt(intendedDateSplit[2]) < Integer.parseInt(systemDateSplit[2])) {
-        MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
+        // MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
         // then compare the month
       } else if (Integer.parseInt(intendedDateSplit[1]) < Integer.parseInt(systemDateSplit[1])) {
-        MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
+        // MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
         // last, compare the day
       } else if (Integer.parseInt(intendedDateSplit[0]) < Integer.parseInt(systemDateSplit[0])) {
-        MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
+        // MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
       } else {
         // if all tests pass, the date is valid
         valid = true;
+      }
+    }
+    // test to make sure the number of attendees is more than 25% of the venue capacity
+    if (valid) {
+      if (Integer.parseInt(intendedGuests) > (Integer.parseInt(venue.getCapacityInput()) * 0.25)) {
+        String newGuests = String.valueOf(Integer.parseInt(venue.getCapacityInput()) * 0.25);
+        MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
+            intendedGuests, newGuests, venue.getCapacityInput());
+        intendedGuests = String.valueOf(Integer.parseInt(venue.getCapacityInput()) * 0.25);
+      }
+    }
+    // test to makes sure the intended guests is a not more than the venue capacity
+    if (valid) {
+      if (Integer.parseInt(intendedGuests) > Integer.parseInt(venue.getCapacityInput())) {
+        // adjust number of bookings to the venue capacity
+        MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
+            intendedGuests, venue.getCapacityInput(), venue.getCapacityInput());
+        valid = false;
       }
     }
 

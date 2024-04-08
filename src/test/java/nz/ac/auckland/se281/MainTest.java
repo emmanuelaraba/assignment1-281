@@ -419,6 +419,20 @@ public class MainTest {
       assertDoesNotContain("'HUD14D8O' on 27/03/2024", true);
       assertDoesNotContain("'ZP4HRCZ4' on 28/05/2024", true);
     }
+
+    @Test
+    public void T2_xx_intended_date_before_system_date() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024",
+              PRINT_DATE, //
+              MAKE_BOOKING,
+              options("MMM", "25/02/2024", "client001@email.com", "230")));
+
+      assertContains("Booking not made: '25/02/2024' is in the past (system date is 26/02/2024).");
+    }
   }
 
   @FixMethodOrder(MethodSorters.NAME_ASCENDING)

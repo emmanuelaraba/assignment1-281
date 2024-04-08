@@ -133,7 +133,7 @@ public class VenueHireSystem {
 
   public void setSystemDate(String dateInput) {
     // checking if the date is empty, otherwise setting the system date
-    if (!dateInput.isEmpty()) {
+    if (dateInput != null) {
       MessageCli.DATE_SET.printMessage(dateInput);
     }
     systemDate = dateInput;
@@ -158,16 +158,23 @@ public class VenueHireSystem {
     // first check if the venue code is valid
     boolean valid = true;
 
-    // use this find the venue that the booking is being made for
+    // finding if the venue code is in the system
     Venue venue = null;
-    for (Venue venue2 : venueList) {
-      if (venue2.getVenueCode().equals(venueCode)) {
-        venue = venue2;
+    for (Venue venue1 : venueList) {
+      if (venue1.getVenueCode().equals(venueCode)) {
+        venue = venue1;
+        System.out.println(venue.getVenueCode());
+        valid = true;
+        break;
       } else {
-        MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(venueCode);
         valid = false;
       }
     }
+
+    if (!valid) {
+      MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(venueCode);
+    }
+
     // test to make sure that a system date is set
     if (valid) {
       if (systemDate == null) {
@@ -185,17 +192,16 @@ public class VenueHireSystem {
     // check if the date is after the system date
     String[] systemDateSplit = systemDate.split("/");
     String[] intendedDateSplit = intendedDate.split("/");
-    // first compare the year
     if (valid) {
       // first compare the year
       if (Integer.parseInt(intendedDateSplit[2]) < Integer.parseInt(systemDateSplit[2])) {
-        // MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
+        MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(intendedDate, systemDate);
         // then compare the month
       } else if (Integer.parseInt(intendedDateSplit[1]) < Integer.parseInt(systemDateSplit[1])) {
-        // MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
+        MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(intendedDate, systemDate);
         // last, compare the day
       } else if (Integer.parseInt(intendedDateSplit[0]) < Integer.parseInt(systemDateSplit[0])) {
-        // MessageCli.BOOKING_NOT_MADE_PAST_DATE(intendedDate, systemDate);
+        MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(intendedDate, systemDate);
       } else {
         // if all tests pass, the date is valid
         valid = true;
@@ -207,16 +213,19 @@ public class VenueHireSystem {
         String newGuests = String.valueOf(Integer.parseInt(venue.getCapacityInput()) * 0.25);
         MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
             intendedGuests, newGuests, venue.getCapacityInput());
+        // adjusting the intended guests to 25% of the venue capacity
         intendedGuests = String.valueOf(Integer.parseInt(venue.getCapacityInput()) * 0.25);
       }
     }
-    // test to makes sure the intended guests is a not more than the venue capacity
+    // test to make sure the intended guests is a not more than the venue capacity
     if (valid) {
       if (Integer.parseInt(intendedGuests) > Integer.parseInt(venue.getCapacityInput())) {
-        // adjust number of bookings to the venue capacity
+        // adjust number of guests to the venue capacity
         MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
             intendedGuests, venue.getCapacityInput(), venue.getCapacityInput());
         valid = false;
+        // adjusting the intended guests to the venue capacity
+        intendedGuests = String.valueOf(Integer.parseInt(venue.getCapacityInput()));
       }
     }
 

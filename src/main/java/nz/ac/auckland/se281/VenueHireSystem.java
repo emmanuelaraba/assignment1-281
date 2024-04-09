@@ -44,7 +44,7 @@ public class VenueHireSystem {
             venue.getVenueCode(),
             venue.getCapacityInput(),
             venue.getHireFeeInput(),
-            findNextAvailableDate(venue.getVenueCode()));
+            "");
       }
 
       // between 1 and 10 (exclusive), we need to write out the number format, not the word
@@ -56,7 +56,7 @@ public class VenueHireSystem {
             venue.getVenueCode(),
             venue.getCapacityInput(),
             venue.getHireFeeInput(),
-            findNextAvailableDate(venue.getVenueCode()));
+            "");
       }
       // 10 and above, print the number
     } else {
@@ -67,7 +67,7 @@ public class VenueHireSystem {
             venue.getVenueCode(),
             venue.getCapacityInput(),
             venue.getHireFeeInput(),
-            findNextAvailableDate(venue.getVenueCode()));
+            "");
       }
     }
   }
@@ -185,6 +185,23 @@ public class VenueHireSystem {
       if (systemDate == null) {
         MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage();
         valid = false;
+        // check if date is not before intended date
+      } else {
+        String[] systemDateSplit = systemDate.split("/");
+        String[] intendedDateSplit = intendedDate.split("/");
+        // first compare the year
+        if (Integer.parseInt(intendedDateSplit[2]) < Integer.parseInt(systemDateSplit[2])) {
+          MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(intendedDate, systemDate);
+          // then compare the month
+        } else if (Integer.parseInt(intendedDateSplit[1]) < Integer.parseInt(systemDateSplit[1])) {
+          MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(intendedDate, systemDate);
+          // last, compare the day
+        } else if (Integer.parseInt(intendedDateSplit[0]) < Integer.parseInt(systemDateSplit[0])) {
+          MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(intendedDate, systemDate);
+        } else {
+          // if all tests pass, the date is valid
+          valid = true;
+        }
       }
     }
 
@@ -193,24 +210,6 @@ public class VenueHireSystem {
       if (venueList.size() == 0) {
         MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage();
         valid = false;
-      }
-    }
-    // check if the date is after the system date
-    String[] systemDateSplit = systemDate.split("/");
-    String[] intendedDateSplit = intendedDate.split("/");
-    if (valid) {
-      // first compare the year
-      if (Integer.parseInt(intendedDateSplit[2]) < Integer.parseInt(systemDateSplit[2])) {
-        MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(intendedDate, systemDate);
-        // then compare the month
-      } else if (Integer.parseInt(intendedDateSplit[1]) < Integer.parseInt(systemDateSplit[1])) {
-        MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(intendedDate, systemDate);
-        // last, compare the day
-      } else if (Integer.parseInt(intendedDateSplit[0]) < Integer.parseInt(systemDateSplit[0])) {
-        MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(intendedDate, systemDate);
-      } else {
-        // if all tests pass, the date is valid
-        valid = true;
       }
     }
     // test to make sure the number of attendees is more than 25% of the venue capacity
@@ -331,6 +330,7 @@ public class VenueHireSystem {
           bookingsExist = true;
         }
       }
+      // if there are no bookings, print the message
       if (!bookingsExist) {
         MessageCli.PRINT_BOOKINGS_NONE.printMessage(venue.getVenueName());
       }

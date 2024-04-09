@@ -1,7 +1,5 @@
 package nz.ac.auckland.se281;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import nz.ac.auckland.se281.Types.CateringType;
 import nz.ac.auckland.se281.Types.FloralType;
@@ -44,7 +42,7 @@ public class VenueHireSystem {
             venue.getVenueCode(),
             venue.getCapacityInput(),
             venue.getHireFeeInput(),
-            "");
+            findNextAvailableDate(venue.getVenueCode()));
       }
 
       // between 1 and 10 (exclusive), we need to write out the number format, not the word
@@ -56,7 +54,7 @@ public class VenueHireSystem {
             venue.getVenueCode(),
             venue.getCapacityInput(),
             venue.getHireFeeInput(),
-            "");
+            findNextAvailableDate(venue.getVenueCode()));
       }
       // 10 and above, print the number
     } else {
@@ -67,7 +65,7 @@ public class VenueHireSystem {
             venue.getVenueCode(),
             venue.getCapacityInput(),
             venue.getHireFeeInput(),
-            "");
+            findNextAvailableDate(venue.getVenueCode()));
       }
     }
   }
@@ -212,6 +210,7 @@ public class VenueHireSystem {
         valid = false;
       }
     }
+
     // test to make sure the number of attendees is more than 25% of the venue capacity
     if (valid) {
       if (Integer.parseInt(intendedGuests) < (Integer.parseInt(venue.getCapacityInput()) * 0.25)) {
@@ -277,28 +276,53 @@ public class VenueHireSystem {
         valid = false;
       }
     }
-    // use code to find the next unbooked date for the venue
+    // if system date is null, return ""
+    if (systemDate == null) {
+      return "";
+    }
+
+    // if there are no booking in the system and just venues, then the next available date is the
+    // system date
+    if (bookingList.size() == 0) {
+      return systemDate;
+    }
+
+    String availableDate = systemDate;
     if (valid) {
-      LocalDate date = LocalDate.parse(systemDate, DateTimeFormatter.ofPattern("dd/MM/uuuu"));
-      boolean dateIsBooked = true;
-      String nextDate;
-
-      while (dateIsBooked) {
+      String[] systemDateSplit = systemDate.split("/");
+      int day = Integer.parseInt(systemDateSplit[0]);
+      int month = Integer.parseInt(systemDateSplit[1]);
+      int year = Integer.parseInt(systemDateSplit[2]);
+      boolean dateIsBooked;
+      do {
+        dateIsBooked = false;
         for (Booking booking : bookingList) {
-
-          if (booking.getVenueCode().equals(venue.getVenueCode())
-              && booking.getBookingDate().equals(date.toString())) {
-            date = date.plusDays(1);
-            break;
-          } else {
-            dateIsBooked = false;
+          if (booking.getVenueCode().equals(venue.getVenueCode())) {
+            String[] bookingDateSplit = booking.getBookingDate().split("/");
+            int bookingDay = Integer.parseInt(bookingDateSplit[0]);
+            int bookingMonth = Integer.parseInt(bookingDateSplit[1]);
+            int bookingYear = Integer.parseInt(bookingDateSplit[2]);
+            if (day == bookingDay && month == bookingMonth && year == bookingYear) {
+              dateIsBooked = true;
+              break;
+            }
           }
         }
-      }
-      nextDate = date.toString();
-      return nextDate;
+        if (dateIsBooked) {
+          day++;
+          if (day > 31) { // simple check, does not account for different month lengths
+            day = 1;
+            month++;
+            if (month > 12) {
+              month = 1;
+              year++;
+            }
+          }
+        }
+      } while (dateIsBooked);
+      availableDate = String.format("%02d/%02d/%04d", day, month, year);
     }
-    return null;
+    return availableDate;
   }
 
   public void printBookings(String venueCode) {

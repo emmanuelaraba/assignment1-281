@@ -7,24 +7,28 @@ import nz.ac.auckland.se281.Types.FloralType;
 public class VenueHireSystem {
 
   // creates new venue list to store the names of the venues
-  private ArrayList<Venue> venueList = new ArrayList<>();
+  private ArrayList<Venue> venueList;
 
   // create variable for the system date
   private String systemDate = null;
 
   // create a list of all the bookings
-  private ArrayList<Booking> bookingList = new ArrayList<>();
+  private ArrayList<Booking> bookingList;
 
   // create a list of all the services
-  private ArrayList<Service> serviceList = new ArrayList<>();
+  private ArrayList<Service> serviceList;
 
   public VenueHireSystem() {
 
-    // when a new venuehiresystem object is instantiated, create a new array to store the venues in
+    // when a new venue hire system object is instantiated, create a new array to store the venues
+    // in
     this.venueList = new ArrayList<>();
 
     // create a new array to store the bookings in
     this.bookingList = new ArrayList<>();
+
+    // create a new array to store the services in
+    this.serviceList = new ArrayList<>();
   }
 
   public void printVenues() {
@@ -490,6 +494,7 @@ public class VenueHireSystem {
 
     MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(venue.getHireFeeInput());
 
+    // method to print out the catering services
     for (Service service : bookingServices) {
       if (service instanceof Catering) {
         Catering catering = (Catering) service;
@@ -497,12 +502,16 @@ public class VenueHireSystem {
             catering.getServiceName(), Integer.toString(catering.getCost()));
       }
     }
+
+    // method to print out the music services
     for (Service service2 : bookingServices) {
       if (service2 instanceof Music) {
         Music music = (Music) service2;
         MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(Integer.toString(music.getCost()));
       }
     }
+
+    // method to print out the floral services
     for (Service service3 : bookingServices) {
       if (service3 instanceof Floral) {
         Floral floral = (Floral) service3;

@@ -483,48 +483,50 @@ public class VenueHireSystem {
       }
     }
 
-    // use information to fill out top half of invoice
-    MessageCli.INVOICE_CONTENT_TOP_HALF.printMessage(
-        booking.getBookingReference(),
-        booking.getCustomerEmail(),
-        booking.getSystemDate(),
-        booking.getBookingDate(),
-        booking.getNumberOfGuests(),
-        venue.getVenueName());
+    if (valid) {
+      // use information to fill out top half of invoice
+      MessageCli.INVOICE_CONTENT_TOP_HALF.printMessage(
+          booking.getBookingReference(),
+          booking.getCustomerEmail(),
+          booking.getSystemDate(),
+          booking.getBookingDate(),
+          booking.getNumberOfGuests(),
+          venue.getVenueName());
 
-    MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(venue.getHireFeeInput());
+      MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(venue.getHireFeeInput());
 
-    // method to print out the catering services
-    for (Service service : bookingServices) {
-      if (service instanceof Catering) {
-        Catering catering = (Catering) service;
-        MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
-            catering.getServiceName(), Integer.toString(catering.getCost()));
+      // method to print out the catering services
+      for (Service service : bookingServices) {
+        if (service instanceof Catering) {
+          Catering catering = (Catering) service;
+          MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
+              catering.getServiceName(), Integer.toString(catering.getCost()));
+        }
       }
-    }
 
-    // method to print out the music services
-    for (Service service2 : bookingServices) {
-      if (service2 instanceof Music) {
-        Music music = (Music) service2;
-        MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(Integer.toString(music.getCost()));
+      // method to print out the music services
+      for (Service service2 : bookingServices) {
+        if (service2 instanceof Music) {
+          Music music = (Music) service2;
+          MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(Integer.toString(music.getCost()));
+        }
       }
-    }
 
-    // method to print out the floral services
-    for (Service service3 : bookingServices) {
-      if (service3 instanceof Floral) {
-        Floral floral = (Floral) service3;
-        MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
-            floral.getServiceName(), Integer.toString(floral.getCost()));
+      // method to print out the floral services
+      for (Service service3 : bookingServices) {
+        if (service3 instanceof Floral) {
+          Floral floral = (Floral) service3;
+          MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
+              floral.getServiceName(), Integer.toString(floral.getCost()));
+        }
       }
+      // find out the total cost of the services
+      int totalCost = Integer.parseInt(venue.getHireFeeInput());
+      for (Service service4 : bookingServices) {
+        totalCost += service4.getCost();
+      }
+      // print the bottom half of the invoice
+      MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage(Integer.toString(totalCost));
     }
-    // find out the total cost of the services
-    int totalCost = Integer.parseInt(venue.getHireFeeInput());
-    for (Service service4 : bookingServices) {
-      totalCost += service4.getCost();
-    }
-    // print the bottom half of the invoice
-    MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage(Integer.toString(totalCost));
   }
 }

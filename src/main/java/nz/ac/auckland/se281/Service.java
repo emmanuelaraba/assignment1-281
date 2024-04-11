@@ -28,6 +28,10 @@ public abstract class Service {
     return serviceName;
   }
 
+  public String getBookingReference() {
+    return bookingReference;
+  }
+
   // abstract method to be implemented by subclasses
   public abstract String getType();
 

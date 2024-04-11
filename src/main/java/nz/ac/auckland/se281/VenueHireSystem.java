@@ -155,6 +155,84 @@ public class VenueHireSystem {
     }
   }
 
+  // method to get the venue from the venue code
+  public Venue getVenue(String venueCode) {
+    for (Venue venue : venueList) {
+      if (venue.getVenueCode().equals(venueCode)) {
+        return venue;
+      }
+    }
+    return null;
+  }
+
+  // method to get the booking from the booking reference
+  public Booking getBooking(String bookingReference) {
+    for (Booking booking : bookingList) {
+      if (booking.getBookingReference().equals(bookingReference)) {
+        return booking;
+      }
+    }
+    return null;
+  }
+
+  public String findNextAvailableDate(String venueCode) {
+    boolean valid = true;
+
+    // find the venue code in the system
+    Venue venue = getVenue(venueCode);
+    if (venue == null) {
+      valid = false;
+    }
+
+    // if system date is null, return ""
+    if (systemDate == null) {
+      return "";
+    }
+
+    // if there are no booking in the system and just venues, then the next available date is the
+    // system date
+    if (bookingList.size() == 0) {
+      return systemDate;
+    }
+
+    String availableDate = systemDate;
+    if (valid) {
+      String[] systemDateSplit = systemDate.split("/");
+      int day = Integer.parseInt(systemDateSplit[0]);
+      int month = Integer.parseInt(systemDateSplit[1]);
+      int year = Integer.parseInt(systemDateSplit[2]);
+      boolean dateIsBooked;
+      do {
+        dateIsBooked = false;
+        for (Booking booking : bookingList) {
+          if (booking.getVenueCode().equals(venue.getVenueCode())) {
+            String[] bookingDateSplit = booking.getBookingDate().split("/");
+            int bookingDay = Integer.parseInt(bookingDateSplit[0]);
+            int bookingMonth = Integer.parseInt(bookingDateSplit[1]);
+            int bookingYear = Integer.parseInt(bookingDateSplit[2]);
+            if (day == bookingDay && month == bookingMonth && year == bookingYear) {
+              dateIsBooked = true;
+              break;
+            }
+          }
+        }
+        if (dateIsBooked) {
+          day++;
+          if (day > 31) { // simple check, does not account for different month lengths
+            day = 1;
+            month++;
+            if (month > 12) {
+              month = 1;
+              year++;
+            }
+          }
+        }
+      } while (dateIsBooked);
+      availableDate = String.format("%02d/%02d/%04d", day, month, year);
+    }
+    return availableDate;
+  }
+
   public void makeBooking(String[] options) {
     // first parse the options that are inputted into the method
     String venueCode = options[0];
@@ -164,22 +242,6 @@ public class VenueHireSystem {
 
     // boolean to check is booking passes all the tests
     boolean valid = true;
-
-    // finding if the venue code is in the system, and also finding the venue
-    Venue venue = null;
-    for (Venue venue1 : venueList) {
-      if (venue1.getVenueCode().equals(venueCode)) {
-        venue = venue1;
-        valid = true;
-        break;
-      } else {
-        valid = false;
-      }
-    }
-    // if the venue is not found, print the message
-    if (!valid) {
-      MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(venueCode);
-    }
 
     // test to make sure that a system date is set, and check if the intended date is not in the
     // past
@@ -213,6 +275,14 @@ public class VenueHireSystem {
         MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage();
         valid = false;
       }
+    }
+
+    // finding if the venue code is in the system, and also finding the venue
+    Venue venue = getVenue(venueCode);
+    if (venue == null) {
+      // if the venue is not found, print the message
+      MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(venueCode);
+      valid = false;
     }
 
     // test to make sure the number of attendees is more than 25% of the venue capacity and not more
@@ -263,85 +333,14 @@ public class VenueHireSystem {
     }
   }
 
-  public String findNextAvailableDate(String venueCode) {
-    boolean valid = true;
-
-    // find the venue code in the system
-    Venue venue = null;
-    for (Venue venue1 : venueList) {
-      if (venue1.getVenueCode().equals(venueCode)) {
-        venue = venue1;
-        valid = true;
-        break;
-      } else {
-        valid = false;
-      }
-    }
-    // if system date is null, return ""
-    if (systemDate == null) {
-      return "";
-    }
-
-    // if there are no booking in the system and just venues, then the next available date is the
-    // system date
-    if (bookingList.size() == 0) {
-      return systemDate;
-    }
-
-    String availableDate = systemDate;
-    if (valid) {
-      String[] systemDateSplit = systemDate.split("/");
-      int day = Integer.parseInt(systemDateSplit[0]);
-      int month = Integer.parseInt(systemDateSplit[1]);
-      int year = Integer.parseInt(systemDateSplit[2]);
-      boolean dateIsBooked;
-      do {
-        dateIsBooked = false;
-        for (Booking booking : bookingList) {
-          if (booking.getVenueCode().equals(venue.getVenueCode())) {
-            String[] bookingDateSplit = booking.getBookingDate().split("/");
-            int bookingDay = Integer.parseInt(bookingDateSplit[0]);
-            int bookingMonth = Integer.parseInt(bookingDateSplit[1]);
-            int bookingYear = Integer.parseInt(bookingDateSplit[2]);
-            if (day == bookingDay && month == bookingMonth && year == bookingYear) {
-              dateIsBooked = true;
-              break;
-            }
-          }
-        }
-        if (dateIsBooked) {
-          day++;
-          if (day > 31) { // simple check, does not account for different month lengths
-            day = 1;
-            month++;
-            if (month > 12) {
-              month = 1;
-              year++;
-            }
-          }
-        }
-      } while (dateIsBooked);
-      availableDate = String.format("%02d/%02d/%04d", day, month, year);
-    }
-    return availableDate;
-  }
-
   public void printBookings(String venueCode) {
     // find the venue code in the system
-    Venue venue = null;
     boolean valid = true;
-    for (Venue venue1 : venueList) {
-      if (venue1.getVenueCode().equals(venueCode)) {
-        venue = venue1;
-        valid = true;
-        break;
-      } else {
-        valid = false;
-      }
-    }
-    // if the venue is not found, print the message
-    if (!valid) {
+
+    Venue venue = getVenue(venueCode);
+    if (venue == null) {
       MessageCli.PRINT_BOOKINGS_VENUE_NOT_FOUND.printMessage(venueCode);
+      valid = false;
     }
 
     // if the venue is found, print the bookings
@@ -372,16 +371,10 @@ public class VenueHireSystem {
       }
     }
     // check if the booking reference is in the system
-    Booking booking = null;
-    for (Booking booking2 : bookingList) {
-      if (booking2.getBookingReference().equals(bookingReference)) {
-        booking = booking2;
-        valid = true;
-        break;
-      } else {
-        MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
-        valid = false;
-      }
+    Booking booking = getBooking(bookingReference);
+    if (booking == null) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
+      valid = false;
     }
 
     // final output if all checks pass
@@ -414,16 +407,10 @@ public class VenueHireSystem {
     }
 
     // check if the booking reference is in the system
-    Booking booking = null;
-    for (Booking booking2 : bookingList) {
-      if (booking2.getBookingReference().equals(bookingReference)) {
-        booking = booking2;
-        valid = true;
-        break;
-      } else {
-        MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Music", bookingReference);
-        valid = false;
-      }
+    Booking booking = getBooking(bookingReference);
+    if (booking == null) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Music", bookingReference);
+      valid = false;
     }
 
     if (valid) {
@@ -450,21 +437,13 @@ public class VenueHireSystem {
     }
 
     // check if the booking reference is in the system
-    Booking booking = null;
-    for (Booking booking2 : bookingList) {
-      if (booking2.getBookingReference().equals(bookingReference)) {
-        booking = booking2;
-        valid = true;
-        break;
-      } else {
-        MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Floral", bookingReference);
-        valid = false;
-      }
+    Booking booking = getBooking(bookingReference);
+    if (booking == null) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Floral", bookingReference);
+      valid = false;
     }
 
     if (valid) {
-      // calculating total cost
-      int totalCost = floralType.getCost() + Integer.parseInt(booking.getNumberOfGuests());
       Floral newFloral =
           new Floral(
               floralType.getName(),
@@ -474,13 +453,38 @@ public class VenueHireSystem {
               booking.getCustomerEmail(),
               booking.getNumberOfGuests(),
               floralType.getName(),
-              totalCost);
+              floralType.getCost());
       MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Floral", bookingReference);
       serviceList.add(newFloral);
     }
   }
 
   public void viewInvoice(String bookingReference) {
-    // TODO implement this method
+    // use the booking reference to find the booking
+    Booking booking = getBooking(bookingReference);
+    boolean valid = true;
+
+    if (booking == null) {
+      MessageCli.VIEW_INVOICE_BOOKING_NOT_FOUND.printMessage(bookingReference);
+      valid = false;
+    }
+
+    Venue venue = getVenue(booking.getVenueCode());
+    // use the reference to find the services
+    ArrayList<Service> services = new ArrayList<>();
+    for (Service service : serviceList) {
+      if (service.getBookingReference().equals(bookingReference)) {
+        services.add(service);
+      }
+    }
+
+    // use information to fill out top half of invoice
+    MessageCli.INVOICE_CONTENT_TOP_HALF.printMessage(
+        booking.getBookingReference(),
+        booking.getCustomerEmail(),
+        booking.getSystemDate(),
+        booking.getBookingDate(),
+        booking.getNumberOfGuests(),
+        booking.getVenueCode());
   }
 }

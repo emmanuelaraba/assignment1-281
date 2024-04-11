@@ -381,11 +381,23 @@ public class VenueHireSystem {
         MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
       }
     }
+    // calculate the total cost of the catering
+    int totalCost = cateringType.getCostPerPerson() * Integer.parseInt(booking.getNumberOfGuests());
 
     // final output if all checks pass
     if (valid) {
+      Catering newCatering =
+          new Catering(
+              cateringType.getName(),
+              bookingReference,
+              systemDate,
+              booking.getCustomerEmail(),
+              booking.getNumberOfGuests(),
+              cateringType.getName(),
+              totalCost);
       MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
           "Catering (" + cateringType.getName() + ")", bookingReference);
+      serviceList.add(newCatering);
     }
   }
 

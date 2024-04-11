@@ -1,6 +1,7 @@
 package nz.ac.auckland.se281;
 
 public abstract class Service {
+  protected String serviceName;
   protected String bookingReference;
   protected String serviceDate;
   protected String customerEmail;
@@ -8,15 +9,24 @@ public abstract class Service {
 
   // make constructor protected to prevent instantiation
   protected Service(
-      String bookingReference, String serviceDate, String customerEmail, String serviceAntendees) {
+      String serviceName,
+      String bookingReference,
+      String serviceDate,
+      String customerEmail,
+      String serviceAntendees) {
+    this.serviceName = serviceName;
     this.bookingReference = bookingReference;
     this.serviceDate = serviceDate;
     this.customerEmail = customerEmail;
     this.serviceAntendees = serviceAntendees;
   }
 
+  public String getServiceName() {
+    return serviceName;
+  }
+
   // abstract method to be implemented by subclasses
   public abstract String getType();
 
-  public abstract String getCost();
+  public abstract int getCost();
 }

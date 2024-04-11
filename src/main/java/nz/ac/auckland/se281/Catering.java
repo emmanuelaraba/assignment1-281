@@ -2,16 +2,17 @@ package nz.ac.auckland.se281;
 
 public class Catering extends Service {
   private String cateringType;
-  private String cateringCost;
+  private int cateringCost;
 
   public Catering(
+      String serviceName,
       String bookingReference,
       String serviceDate,
       String customerEmail,
       String serviceAntendees,
       String cateringType,
-      String cateringCost) {
-    super(bookingReference, serviceDate, customerEmail, serviceAntendees);
+      int cateringCost) {
+    super(serviceName, bookingReference, serviceDate, customerEmail, serviceAntendees);
     this.cateringType = cateringType;
     this.cateringCost = cateringCost;
   }
@@ -20,7 +21,7 @@ public class Catering extends Service {
     return cateringType;
   }
 
-  public String getCost() {
+  public int getCost() {
     return cateringCost;
   }
 }

@@ -2,16 +2,17 @@ package nz.ac.auckland.se281;
 
 public class Music extends Service {
   private String musicType;
-  private String musicCost;
+  private int musicCost;
 
   public Music(
+      String serviceName,
       String bookingReference,
       String serviceDate,
       String customerEmail,
       String serviceAntendees,
       String musicType,
-      String musicCost) {
-    super(bookingReference, serviceDate, customerEmail, serviceAntendees);
+      int musicCost) {
+    super(serviceName, bookingReference, serviceDate, customerEmail, serviceAntendees);
     this.musicType = musicType;
     this.musicCost = musicCost;
   }
@@ -20,7 +21,7 @@ public class Music extends Service {
     return musicType;
   }
 
-  public String getCost() {
+  public int getCost() {
     return musicCost;
   }
 }

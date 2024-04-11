@@ -365,11 +365,12 @@ public class VenueHireSystem {
   public void addCateringService(String bookingReference, CateringType cateringType) {
     boolean valid = true;
     // checking if there are bookings in the system
-    if (bookingList.size() == 0) {
-      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
-      valid = false;
+    if (valid) {
+      if (bookingList.size() == 0) {
+        MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
+        valid = false;
+      }
     }
-
     // check if the booking reference is in the system
     Booking booking = null;
     for (Booking booking2 : bookingList) {
@@ -382,11 +383,12 @@ public class VenueHireSystem {
         valid = false;
       }
     }
-    // calculate the total cost of the catering
-    int totalCost = cateringType.getCostPerPerson() * Integer.parseInt(booking.getNumberOfGuests());
 
     // final output if all checks pass
     if (valid) {
+      // calculating total cost
+      int totalCost =
+          cateringType.getCostPerPerson() * Integer.parseInt(booking.getNumberOfGuests());
       Catering newCatering =
           new Catering(
               cateringType.getName(),
@@ -459,8 +461,10 @@ public class VenueHireSystem {
         valid = false;
       }
     }
-    int totalCost = floralType.getCost() + Integer.parseInt(booking.getNumberOfGuests());
+
     if (valid) {
+      // calculating total cost
+      int totalCost = floralType.getCost() + Integer.parseInt(booking.getNumberOfGuests());
       Floral newFloral =
           new Floral(
               floralType.getName(),

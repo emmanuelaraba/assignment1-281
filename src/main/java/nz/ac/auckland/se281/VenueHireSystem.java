@@ -159,7 +159,7 @@ public class VenueHireSystem {
     String clientEmail = options[2];
     String intendedGuests = options[3];
 
-    // first check if the venue code is valid
+    // boolean to check is booking passes all the tests
     boolean valid = true;
 
     // finding if the venue code is in the system, and also finding the venue
@@ -178,7 +178,8 @@ public class VenueHireSystem {
       MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(venueCode);
     }
 
-    // test to make sure that a system date is set
+    // test to make sure that a system date is set, and check if the intended date is not in the
+    // past
     if (valid) {
       if (systemDate == null) {
         MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage();
@@ -211,7 +212,9 @@ public class VenueHireSystem {
       }
     }
 
-    // test to make sure the number of attendees is more than 25% of the venue capacity
+    // test to make sure the number of attendees is more than 25% of the venue capacity and not more
+    // than the venue
+    // capacity
     if (valid) {
       if (Integer.parseInt(intendedGuests) < (Integer.parseInt(venue.getCapacityInput()) * 0.25)) {
         int intGuests = (int) (Integer.parseInt(venue.getCapacityInput()) * 0.25);
@@ -220,16 +223,11 @@ public class VenueHireSystem {
             intendedGuests, newGuests, venue.getCapacityInput());
         // adjusting the intended guests to 25% of the venue capacity
         intendedGuests = newGuests;
-      }
-    }
-
-    // test to make sure the intended guests is a not more than the venue capacity
-    if (valid) {
-      if (Integer.parseInt(intendedGuests) > Integer.parseInt(venue.getCapacityInput())) {
+      } else if (Integer.parseInt(intendedGuests) > Integer.parseInt(venue.getCapacityInput())) {
         // adjust number of guests to the venue capacity
         MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
             intendedGuests, venue.getCapacityInput(), venue.getCapacityInput());
-        valid = false;
+        valid = true;
         // adjusting the intended guests to the venue capacity
         intendedGuests = String.valueOf(Integer.parseInt(venue.getCapacityInput()));
       }

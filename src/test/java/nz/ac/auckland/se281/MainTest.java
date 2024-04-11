@@ -421,7 +421,7 @@ public class MainTest {
     }
 
     @Test
-    public void T2_xx_intended_date_before_system_date() throws Exception {
+    public void T2_16_intended_date_before_system_date() throws Exception {
       runCommands(
           unpack(
               CREATE_TEN_VENUES,
@@ -432,6 +432,21 @@ public class MainTest {
               options("MMM", "25/02/2024", "client001@email.com", "230")));
 
       assertContains("Booking not made: '25/02/2024' is in the past (system date is 26/02/2024).");
+    }
+
+    @Test
+    public void T2_17_make_booking_too_many_attendees() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("GGG", "28/05/2024", "client999@email.com", "800")));
+
+      assertContains("Number of attendees adjusted from 800 to 260, as the venue capacity is 260.");
+      assertContains("Successfully created booking 'HUD14D8O'");
+      assertDoesNotContain("Booking not made", true);
     }
   }
 

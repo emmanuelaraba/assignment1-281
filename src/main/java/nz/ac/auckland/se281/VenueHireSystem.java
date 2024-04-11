@@ -7,16 +7,16 @@ import nz.ac.auckland.se281.Types.FloralType;
 public class VenueHireSystem {
 
   // creates new venue list to store the names of the venues
-  private ArrayList<Venue> venueList;
+  private ArrayList<Venue> venueList = new ArrayList<>();
 
   // create variable for the system date
   private String systemDate = null;
 
   // create a list of all the bookings
-  private ArrayList<Booking> bookingList;
+  private ArrayList<Booking> bookingList = new ArrayList<>();
 
   // create a list of all the services
-  private ArrayList<Service> serviceList;
+  private ArrayList<Service> serviceList = new ArrayList<>();
 
   public VenueHireSystem() {
 
@@ -392,9 +392,9 @@ public class VenueHireSystem {
               booking.getNumberOfGuests(),
               cateringType.getName(),
               totalCost);
+      serviceList.add(newCatering);
       MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
           "Catering (" + cateringType.getName() + ")", bookingReference);
-      serviceList.add(newCatering);
     }
   }
 
@@ -454,7 +454,8 @@ public class VenueHireSystem {
               booking.getNumberOfGuests(),
               floralType.getName(),
               floralType.getCost());
-      MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Floral", bookingReference);
+      MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+          "Floral (" + floralType.getName() + ")", bookingReference);
       serviceList.add(newFloral);
     }
   }
@@ -471,10 +472,10 @@ public class VenueHireSystem {
 
     Venue venue = getVenue(booking.getVenueCode());
     // use the reference to find the services
-    ArrayList<Service> services = new ArrayList<>();
+    ArrayList<Service> bookingServices = new ArrayList<>();
     for (Service service : serviceList) {
       if (service.getBookingReference().equals(bookingReference)) {
-        services.add(service);
+        bookingServices.add(service);
       }
     }
 
@@ -485,6 +486,36 @@ public class VenueHireSystem {
         booking.getSystemDate(),
         booking.getBookingDate(),
         booking.getNumberOfGuests(),
-        booking.getVenueCode());
+        venue.getVenueName());
+
+    MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(venue.getHireFeeInput());
+
+    for (Service service : bookingServices) {
+      if (service instanceof Catering) {
+        Catering catering = (Catering) service;
+        MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
+            catering.getServiceName(), Integer.toString(catering.getCost()));
+      }
+    }
+    for (Service service2 : bookingServices) {
+      if (service2 instanceof Music) {
+        Music music = (Music) service2;
+        MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage(Integer.toString(music.getCost()));
+      }
+    }
+    for (Service service3 : bookingServices) {
+      if (service3 instanceof Floral) {
+        Floral floral = (Floral) service3;
+        MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
+            floral.getServiceName(), Integer.toString(floral.getCost()));
+      }
+    }
+    // find out the total cost of the services
+    int totalCost = Integer.parseInt(venue.getHireFeeInput());
+    for (Service service4 : bookingServices) {
+      totalCost += service4.getCost();
+    }
+    // print the bottom half of the invoice
+    MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage(Integer.toString(totalCost));
   }
 }

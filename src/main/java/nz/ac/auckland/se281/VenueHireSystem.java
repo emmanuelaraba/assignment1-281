@@ -15,6 +15,9 @@ public class VenueHireSystem {
   // create a list of all the bookings
   private ArrayList<Booking> bookingList;
 
+  // create a list of all the services
+  private ArrayList<Service> serviceList;
+
   public VenueHireSystem() {
 
     // when a new venuehiresystem object is instantiated, create a new array to store the venues in
@@ -360,7 +363,29 @@ public class VenueHireSystem {
   }
 
   public void addCateringService(String bookingReference, CateringType cateringType) {
-    // TODO implement this method
+    boolean valid = true;
+    // checking if there are bookings in the system
+    if (bookingList.size() == 0) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
+      valid = false;
+    }
+
+    // check if the booking reference is in the system
+    Booking booking = null;
+    for (Booking booking2 : bookingList) {
+      if (booking2.getBookingReference().equals(bookingReference)) {
+        booking = booking2;
+        valid = true;
+        break;
+      } else {
+        MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
+      }
+    }
+
+    // final output if all checks pass
+    if (valid) {
+      MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Catering", bookingReference);
+    }
   }
 
   public void addServiceMusic(String bookingReference) {

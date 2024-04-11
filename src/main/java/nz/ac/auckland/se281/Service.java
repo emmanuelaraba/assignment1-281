@@ -16,5 +16,7 @@ public abstract class Service {
   }
 
   // abstract method to be implemented by subclasses
+  public abstract String getType();
 
+  public abstract String getCost();
 }

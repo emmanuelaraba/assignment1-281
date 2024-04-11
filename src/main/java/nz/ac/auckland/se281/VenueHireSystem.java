@@ -384,7 +384,8 @@ public class VenueHireSystem {
 
     // final output if all checks pass
     if (valid) {
-      MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Catering", bookingReference);
+      MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+          "Catering (" + cateringType.getName() + ")", bookingReference);
     }
   }
 

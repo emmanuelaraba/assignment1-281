@@ -3,6 +3,7 @@ package nz.ac.auckland.se281;
 public abstract class Service {
   protected String serviceName;
   protected String bookingReference;
+  protected String systemDate;
   protected String serviceDate;
   protected String customerEmail;
   protected String serviceAntendees;
@@ -11,11 +12,13 @@ public abstract class Service {
   protected Service(
       String serviceName,
       String bookingReference,
+      String systemDate,
       String serviceDate,
       String customerEmail,
       String serviceAntendees) {
     this.serviceName = serviceName;
     this.bookingReference = bookingReference;
+    this.systemDate = systemDate;
     this.serviceDate = serviceDate;
     this.customerEmail = customerEmail;
     this.serviceAntendees = serviceAntendees;

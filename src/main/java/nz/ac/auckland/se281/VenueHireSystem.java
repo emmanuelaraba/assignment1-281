@@ -379,6 +379,7 @@ public class VenueHireSystem {
         break;
       } else {
         MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
+        valid = false;
       }
     }
     // calculate the total cost of the catering
@@ -390,7 +391,8 @@ public class VenueHireSystem {
           new Catering(
               cateringType.getName(),
               bookingReference,
-              systemDate,
+              booking.getSystemDate(),
+              booking.getBookingDate(),
               booking.getCustomerEmail(),
               booking.getNumberOfGuests(),
               cateringType.getName(),
@@ -402,11 +404,76 @@ public class VenueHireSystem {
   }
 
   public void addServiceMusic(String bookingReference) {
-    // TODO implement this method
+    boolean valid = true;
+    // checking if there are bookings in the system
+    if (bookingList.size() == 0) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Music", bookingReference);
+      valid = false;
+    }
+
+    // check if the booking reference is in the system
+    Booking booking = null;
+    for (Booking booking2 : bookingList) {
+      if (booking2.getBookingReference().equals(bookingReference)) {
+        booking = booking2;
+        valid = true;
+        break;
+      } else {
+        MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Music", bookingReference);
+        valid = false;
+      }
+    }
+
+    if (valid) {
+      Music newMusic =
+          new Music(
+              "Music",
+              bookingReference,
+              booking.getSystemDate(),
+              booking.getBookingDate(),
+              booking.getCustomerEmail(),
+              booking.getNumberOfGuests(),
+              500);
+      MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Music", bookingReference);
+      serviceList.add(newMusic);
+    }
   }
 
   public void addServiceFloral(String bookingReference, FloralType floralType) {
-    // TODO implement this method
+    boolean valid = true;
+    // checking if there are bookings in the system
+    if (bookingList.size() == 0) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Floral", bookingReference);
+      valid = false;
+    }
+
+    // check if the booking reference is in the system
+    Booking booking = null;
+    for (Booking booking2 : bookingList) {
+      if (booking2.getBookingReference().equals(bookingReference)) {
+        booking = booking2;
+        valid = true;
+        break;
+      } else {
+        MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Floral", bookingReference);
+        valid = false;
+      }
+    }
+    int totalCost = floralType.getCost() + Integer.parseInt(booking.getNumberOfGuests());
+    if (valid) {
+      Floral newFloral =
+          new Floral(
+              floralType.getName(),
+              bookingReference,
+              booking.getSystemDate(),
+              booking.getBookingDate(),
+              booking.getCustomerEmail(),
+              booking.getNumberOfGuests(),
+              floralType.getName(),
+              totalCost);
+      MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Floral", bookingReference);
+      serviceList.add(newFloral);
+    }
   }
 
   public void viewInvoice(String bookingReference) {

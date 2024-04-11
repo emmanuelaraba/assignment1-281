@@ -7,12 +7,13 @@ public class Floral extends Service {
   public Floral(
       String serviceName,
       String bookingReference,
+      String systemDate,
       String serviceDate,
       String customerEmail,
       String serviceAntendees,
       String floralType,
       int floralCost) {
-    super(serviceName, bookingReference, serviceDate, customerEmail, serviceAntendees);
+    super(serviceName, bookingReference, systemDate, serviceDate, customerEmail, serviceAntendees);
     this.floralType = floralType;
     this.floralCost = floralCost;
   }

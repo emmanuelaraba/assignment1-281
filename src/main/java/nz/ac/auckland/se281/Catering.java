@@ -7,12 +7,13 @@ public class Catering extends Service {
   public Catering(
       String serviceName,
       String bookingReference,
+      String systemDate,
       String serviceDate,
       String customerEmail,
       String serviceAntendees,
       String cateringType,
       int cateringCost) {
-    super(serviceName, bookingReference, serviceDate, customerEmail, serviceAntendees);
+    super(serviceName, bookingReference, systemDate, serviceDate, customerEmail, serviceAntendees);
     this.cateringType = cateringType;
     this.cateringCost = cateringCost;
   }

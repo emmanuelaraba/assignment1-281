@@ -18,10 +18,12 @@ public class Floral extends Service {
     this.floralCost = floralCost;
   }
 
+  @Override
   public String getType() {
     return floralType;
   }
 
+  @Override
   public int getCost() {
     return floralCost;
   }

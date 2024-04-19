@@ -16,10 +16,12 @@ public class Music extends Service {
     this.musicCost = 500;
   }
 
+  @Override
   public String getType() {
     return musicType;
   }
 
+  @Override
   public int getCost() {
     return musicCost;
   }

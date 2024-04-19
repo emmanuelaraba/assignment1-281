@@ -18,10 +18,12 @@ public class Catering extends Service {
     this.cateringCost = cateringCost;
   }
 
+  @Override
   public String getType() {
     return cateringType;
   }
 
+  @Override
   public int getCost() {
     return cateringCost;
   }

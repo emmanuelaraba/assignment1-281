@@ -330,6 +330,8 @@ public class MainTest {
               options("GGG", "03/02/2024", "client001@email.com", "230"),
               MAKE_BOOKING,
               options("GGG", "04/02/2024", "client001@email.com", "230"),
+              MAKE_BOOKING,
+              options("GGG", "05/02/2024", "client001@email.com", "230"),
               PRINT_VENUES));
 
       assertContains(
@@ -337,7 +339,7 @@ public class MainTest {
               + " 03/02/2024");
       assertContains(
           "Grand Gala Gardens (GGG) - 260 people - $1500 base hire fee. Next available on"
-              + " 05/02/2024");
+              + " 06/02/2024");
       assertContains(
           "Majestic Monarch Mansion (MMM) - 1000 people - $2500 base hire fee. Next available on"
               + " 03/02/2024");
@@ -738,6 +740,26 @@ public class MainTest {
       assertContains("Party Date: 27/07/2024");
       assertContains("Number of Guests: 20");
       assertContains("Venue: Frugal Fiesta Hall");
+    }
+
+    @Test
+    public void T3_16_add_floral_service_booking_reference_invalid() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("GGG", "27/03/2024", "client001@email.com", "230"), //
+              ADD_FLORAL,
+              "JAHDA@)",
+              options("n")));
+
+      assertContains(
+          "Floral service not added: there is no booking with reference 'JAHDA@)' in the system.");
+      assertDoesNotContain("* Catering ", true);
+      assertDoesNotContain(
+          "Successfully added Floral (Standard) service to booking 'HUD14D8O'.", true);
     }
   }
 

@@ -1,6 +1,5 @@
 package nz.ac.auckland.se281;
 
-import java.util.ArrayList;
 
 public class Booking {
   private String bookingReference;
@@ -11,9 +10,6 @@ public class Booking {
 
   // initialising the system date
   private String systemDate = null;
-
-  // arraylist to store the previously created bookings
-  public ArrayList<Booking> bookingList;
 
   public Booking(
       String bookingReference,

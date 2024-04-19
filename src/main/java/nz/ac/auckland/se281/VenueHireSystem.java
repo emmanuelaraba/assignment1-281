@@ -237,6 +237,16 @@ public class VenueHireSystem {
     return availableDate;
   }
 
+  // method to find out if a booking reference is in the system
+  public Boolean findReference(String bookingReference) {
+    for (Booking booking : bookingList) {
+      if (booking.getBookingReference().equals(bookingReference)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public void makeBooking(String[] options) {
     // first parse the options that are inputted into the method
     String venueCode = options[0];
@@ -366,7 +376,10 @@ public class VenueHireSystem {
   }
 
   public void addCateringService(String bookingReference, CateringType cateringType) {
-    boolean valid = true;
+    boolean valid = findReference(bookingReference);
+    if (!valid) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
+    }
     // checking if there are bookings in the system
     if (valid) {
       if (bookingList.size() == 0) {
@@ -403,7 +416,10 @@ public class VenueHireSystem {
   }
 
   public void addServiceMusic(String bookingReference) {
-    boolean valid = true;
+    boolean valid = findReference(bookingReference);
+    if (!valid) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Music", bookingReference);
+    }
     // checking if there are bookings in the system
     if (bookingList.size() == 0) {
       MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Music", bookingReference);
@@ -433,7 +449,10 @@ public class VenueHireSystem {
   }
 
   public void addServiceFloral(String bookingReference, FloralType floralType) {
-    boolean valid = true;
+    boolean valid = findReference(bookingReference);
+    if (!valid) {
+      MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Floral", bookingReference);
+    }
     // checking if there are bookings in the system
     if (bookingList.size() == 0) {
       MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Floral", bookingReference);
